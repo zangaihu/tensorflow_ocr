@@ -13,6 +13,7 @@ epochs = 10
 # 输入尺寸28*28
 img_rows, img_cols = 28, 28
 
+# 加载mnist数据集
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
 if K.image_data_format() == 'channels_first':
@@ -36,20 +37,24 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 print(input_shape)
 
-# 构建网络
+
+# 构建网络 lenet5模型结构
 model = Sequential()
 # 第一个卷积层，32个卷积核，大小５x5，卷积模式SAME,激活函数relu,输入张量的大小
+# 第一个卷积层，6个卷积核，大小５x5，卷积模式SAME,无激活函数,输入张量的大小
 model.add(Conv2D(filters=6, kernel_size=(5, 5), padding='Same',
-                 input_shape=(28, 28, 1)))
+                 input_shape=(28, 28, 1),
+                 activation='relu'
+                 ))
 # model.add(Conv2D(filters=32, kernel_size=(5, 5), padding='Same', activation='relu'))
 # 池化层,池化核大小２x2
 model.add(MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
-# 随机丢弃四分之一的网络连接，防止过拟合
-# model.add(Dropout(0.25))
-model.add(Conv2D(filters=16, kernel_size=(3, 3), padding='Same'))
+    # 随机丢弃四分之一的网络连接，防止过拟合
+model.add(Dropout(0.25))
+model.add(Conv2D(filters=16, kernel_size=(3, 3), padding='Same',activation='relu'))
 # model.add(Conv2D(filters=64, kernel_size=(3, 3), padding='Same', activation='relu'))
 model.add(MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
-# model.add(Dropout(0.25))
+model.add(Dropout(0.25))
 # 全连接层,展开操作，
 model.add(Flatten())
 # 添加隐藏层神经元的数量和激活函数

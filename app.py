@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2019/9/15 14:27
-# @Author  : Paulson
-# @File    : app.py
-# @Software: PyCharm
-# @define  : function
 
 from flask import Flask, render_template, request
 import numpy as np
